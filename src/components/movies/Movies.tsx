@@ -23,7 +23,7 @@ function Movies () {
       let data = marked
       data.array = markedLocal
       setMarked(data)
-    forceUpdate()
+      forceUpdate()
     }
     catch(err){
 
