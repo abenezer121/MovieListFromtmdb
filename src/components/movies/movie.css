@@ -1,0 +1,116 @@
+.firstSection{
+    height: 100vh;
+    width: 100vw;
+    background-color: green;
+    max-width:100%;  /* added */
+    max-height: 100%;
+    
+}
+.secondSection{
+    height: 100vh;
+    width: 100vw;
+    max-width:100%;  /* added */
+    max-height: 100%;
+    position: relative;
+
+}
+
+
+.signupheading{
+    font-size: 40px;
+    left: 40%;
+    -ms-transform: translateX(40%);
+    transform: translateX(40%);
+    font-weight: bold;
+    margin-bottom: 15%;
+   
+}
+.Content{
+    width: 45%;
+    
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    -ms-transform: translateX(-20%);
+    transform: translateX(-20%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+
+.btn-google {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd
+}
+
+
+.imageicon{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.google{
+    margin-bottom: 5%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  .logintext {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #000; 
+    line-height: 0.1em;
+    margin: 10px 0 70px; 
+ } 
+ 
+ .logintext span { 
+     background:#fff;
+     color: grey; 
+     padding:0 10px; 
+    
+ }
+  
+
+  .inputBox{
+    border: 1px solid grey;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 14px;
+  }
+
+.pol{
+    margin-left: 5%;
+    color: grey;
+    text-align: justify;
+}
+
+  .password{
+      margin-top: 40px;
+      margin-bottom: 10px;
+  }
+  
+  
+
+
+  .loginText{
+      color  : #4A7856;
+  }
+  

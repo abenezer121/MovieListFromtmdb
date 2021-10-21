@@ -1,170 +1,285 @@
-import React, { useEffect, useState }  from 'react'
-import MaterialTable from "material-table";
+import * as React from 'react';
+import './movie.css'
+import { Button, Form, Input } from 'antd';
 
-import {MovieDiv} from './movieStyle'
+function Movies() {
 
-  
-function Movies () {
+  const [loginForm] = Form.useForm();
 
-
-
-  interface IUser {
-    array: Array<string>;
-  }
-
-  const [marked , setMarked] = useState<IUser>({array : []})
-  const [_, forceUpdate] = React.useReducer((x) => x + 1, 0);
-
-  useEffect(() =>   {
-    try{
-
-      var retrievedData = localStorage.getItem("marked");
-      var markedLocal = retrievedData !== null ?   JSON.parse(retrievedData) : [];
-      let data = marked
-      data.array = markedLocal
-      setMarked(data)
-      forceUpdate()
-    }
-    catch(err){
-
-    }
-
-  }, []);
-
-
-  
-
-  function handleHighLight(title: string): void {
-    //check if exists
-    let data = marked
-    if(marked.array.includes(title)){
-      data.array = data.array.filter((n) =>{ return  n != title })
-      setMarked(data)
-    localStorage.setItem("marked", JSON.stringify(data.array))
-
-    }
-    else{
-      data.array.push(title)
-      setMarked(data)
-      localStorage.setItem("marked", JSON.stringify(data.array))
-
-
-    }
-    forceUpdate()
+  const onLogin = (values:any) => {
+    console.log(values)
   }
   
-
-
   return (
     
-    <MovieDiv>
-      <h4 className="p-4"> { "User Lists"} </h4>
-      
-      <MaterialTable
-        style={{
-          color: "#095B59",
-          fontFamily: "Roboto, sans-serif",
-          fontSize: ".8em",
-          border: "1px solid #e5e5e5",
-        }}
-        title={"All users"}
-      options = {{
-        search: true,
-        rowStyle : rowData =>  {
-          if(marked.array.includes(rowData.title)){
-            return {backgroundColor : 'yellow'}
-          }
-          return {}
-        }
-      }}
+    
+    <div className="row">
 
-        columns={[
-          { title: "Icon", field: "backdrop_path" ,  
-          render : rowData => (
-           
-            <img
-              style={{ height: 36, borderRadius: '50%' }}
-              src={`http://image.tmdb.org/t/p/w500/${rowData.backdrop_path}`}
-           />
-          )
-        }
-          ,
-          { title: "Name", field: "title"  
-        },
-          { title: "rating", field: "vote_average" 
-        },
-          { title: "year", field: "release_date" 
-   
-        },
-         {
-           title : "Star" , field : "star" , 
-           render: rowData => (
-            <span onClick={() => handleHighLight(rowData.title)}> 
-            <i  className="material-icons">star</i>
-            </span>
-           )
-         }
-          
-          
-        ]}
+    <div className="col-sm-1 firstSection" id="col">
+      <div className="sectionOneContent" >
+        <p>Designed by property managers,for property managers</p>
+      </div>
+  
+    </div>
+    <div className="col-sm-11 secondSection">
+       <div className="Content">
 
-       data={query =>
-        new Promise((resolve, reject) => {
+                                <p className="signupheading">Sign up</p>
+                                <div className="google"> <a className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#"><img className="imageicon" src="https://developers.google.com/identity/images/g-logo.png"/> <span style={{ color : 'grey'}}>Continue  with Google</span> </a> </div>
+                                <div  style = {{
+                                    marginBottom: '10%',
+                                    backgroundColor: '#1877F2'
+                                }}
+                                > <a className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#"
+                                style = {{
+                                  backgroundColor: '#1877F2',
+                                  fontWeight: 'bold'
 
-          //if it is search
-          //query.search == ""
-          if(query.search){
-            let url = `https://api.themoviedb.org/3/search/movie?api_key=2989bbe386534eee1b72aa98b2458d69&language=en-US&page=page=${query.page + 1}&query=${query.search}`
-           
-            fetch(url)
-              .then(response => response.json())
-              .then(result => {
-                resolve({
-                  data: result.results,
-                  page: result.page - 1,
-                  totalCount: 500,
-                })
-              })
-          }
+                              }}
+                                >
+                                  <i className="fa fa-facebook"></i>
+                                 <span style = {{ color : 'white' ,  marginLeft : '20px' }}>Continue  with Facebook</span></a> </div>
+                                
+                                <p className="logintext"><span>Login with email</span></p>
 
-          else if(query.orderBy){
-              
+                                <Form
+                                  form={loginForm}
+                                  layout="vertical"
+                                  onFinish={onLogin}
+                                  requiredMark={false}
+                                >
 
-              let url =  `https://api.themoviedb.org/3/discover/movie?api_key=2989bbe386534eee1b72aa98b2458d69&sort_by=${query.orderBy.field+"."+query.orderDirection}&page=${query.page + 1}`
-              
-            fetch(url)
-            .then(response => response.json())
-            .then(result => {
-              resolve({
-                data : result.results,
-                page: result.page - 1,
-                totalCount: 500,
-              })
-            })
-          }
-          
-          else{
-            let url = `https://api.themoviedb.org/3/discover/movie?api_key=2989bbe386534eee1b72aa98b2458d69&page=${query.page + 1}`
-          fetch(url)
-            .then(response => response.json())
-            .then(result => {
-              resolve({
-                data: result.results,
-                page: result.page - 1,
-                totalCount: 500,
-              })
-            })
-          }
-          
+                                  <Form.Item
+                                             name="username"
+                                             className = "inputwrapper"
+                                            label="Email"
+                                            rules={[
+                                              {
+                                                required: true,
+                                                type: 'email',
+                                                message: 'Please enter a valid Email here.',
+                                              },
+                                            ]}>
+                                            <Input
+                                               className="inputBox"
+                                        
+                                              autoComplete="email"
+                                              style={{ padding: '4px !important' }}
+                                              placeholder={'i.e: rebecca@gmail.com'}
+                                              name="username"
+                                            />
+                                  </Form.Item>
 
-        })
-      }
+                                  <Form.Item
+                                      name="password"
+                                      label="Password"
+                                      
+                                        className="password"
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: 'Password is required!',
+                                        },
+                                      ]}
+                                    >
+                                      <Input
+                                      className="inputBox"
+                                       type="password"
+                                        autoComplete="current-password" />
+                                  </Form.Item>
+                                  <p className="pol">By signing you are agreeing with term of service and  our privacy policy</p>
+                                  <Button
+                                      className = " btn "
+                                      type="default"
+                                      htmlType="submit"
+                                      style={{
+                                        
+                                        width: '100%',
+                                        backgroundColor: '#4A7856',
+                                        
+                                        color : '#fff',
+                                        fontSize: '20px',
+                                        fontWeight: 'bold'                                     
+                                      }}
+                                    >
+                                      <span className="signuptext"> Sign up</span>
+                                     
+                                </Button>
 
-        
-      />
-    </MovieDiv>
-  );
+                                <Button
+                                className = "alLogin"
+                                  style={{
+                                    border: 'none',
+                                    background: 'none',
+                                    color: 'inherit',
+                                    padding: '0',
+                                    font:  'inherit',
+                                    cursor: 'pointer',
+                                    outline: 'inherit',
+                                    marginTop : '5%',
+                                    marginLeft : '20%',
+                                    marginRight : '30%'
+                                  }}
+                                  type="link"
+                                >
+                                  Already have an account? <span className="loginText">Login</span>
+                                </Button>
+
+
+        </Form>
+       
+       </div>
+    </div>
+  </div>
+
+
+  )
 }
+
 
 export default Movies;
 
+
+
+/*
+import * as React from 'react';
+import './movie.css'
+import { Button, Form, Input } from 'antd';
+
+function Movies() {
+
+  const [loginForm] = Form.useForm();
+
+  const onLogin = (values:any) => {
+    console.log(values)
+  }
+  
+  return (
+    
+    
+    <div className="row">
+
+    <div className="col-sm-6 firstSection" id="col">
+      <div className="sectionOneContent" >
+        <p>Designed by property managers,for property managers</p>
+      </div>
+  
+    </div>
+    <div className="col-sm-6 secondSection">
+       <div className="Content">
+
+                                <p className="signupheading">Sign up</p>
+                                <div className="google"> <a className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#"><img className="imageicon" src="https://developers.google.com/identity/images/g-logo.png"/> <span style={{ color : 'grey'}}>Continue  with Google</span> </a> </div>
+                                <div  style = {{
+                                    marginBottom: '10%',
+                                    backgroundColor: '#1877F2'
+                                }}
+                                > <a className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#"
+                                style = {{
+                                  backgroundColor: '#1877F2',
+                                  fontWeight: 'bold'
+
+                              }}
+                                >
+                                  <i className="fa fa-facebook"></i>
+                                 <span style = {{ color : 'white' ,  marginLeft : '20px' }}>Continue  with Facebook</span></a> </div>
+                                
+                                <p className="logintext"><span>Login with email</span></p>
+
+                                <Form
+                                  form={loginForm}
+                                  layout="vertical"
+                                  onFinish={onLogin}
+                                  requiredMark={false}
+                                >
+
+                                  <Form.Item
+                                             name="username"
+                                             className = "inputwrapper"
+                                            label="Email"
+                                            rules={[
+                                              {
+                                                required: true,
+                                                type: 'email',
+                                                message: 'Please enter a valid Email here.',
+                                              },
+                                            ]}>
+                                            <Input
+                                               className="inputBox"
+                                        
+                                              autoComplete="email"
+                                              style={{ padding: '4px !important' }}
+                                              placeholder={'i.e: rebecca@gmail.com'}
+                                              name="username"
+                                            />
+                                  </Form.Item>
+
+                                  <Form.Item
+                                      name="password"
+                                      label="Password"
+                                      
+                                        className="password"
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: 'Password is required!',
+                                        },
+                                      ]}
+                                    >
+                                      <Input
+                                      className="inputBox"
+                                       type="password"
+                                        autoComplete="current-password" />
+                                  </Form.Item>
+                                  <p className="pol">By signing you are agreeing with term of service and  our privacy policy</p>
+                                  <Button
+                                      className = " btn "
+                                      type="default"
+                                      htmlType="submit"
+                                      style={{
+                                        
+                                        width: '100%',
+                                        backgroundColor: '#4A7856',
+                                        
+                                        color : '#fff',
+                                        fontSize: '20px',
+                                        fontWeight: 'bold'                                     
+                                      }}
+                                    >
+                                      <span className="signuptext"> Sign up</span>
+                                     
+                                </Button>
+
+                                <Button
+                                className = "alLogin"
+                                  style={{
+                                    border: 'none',
+                                    background: 'none',
+                                    color: 'inherit',
+                                    padding: '0',
+                                    font:  'inherit',
+                                    cursor: 'pointer',
+                                    outline: 'inherit',
+                                    marginTop : '5%',
+                                    marginLeft : '20%',
+                                    marginRight : '30%'
+                                  }}
+                                  type="link"
+                                >
+                                  Already have an account? <span className="loginText">Login</span>
+                                </Button>
+
+
+        </Form>
+       
+       </div>
+    </div>
+  </div>
+
+
+  )
+}
+
+
+export default Movies;
+*/
